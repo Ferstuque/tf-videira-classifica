@@ -9,7 +9,6 @@ import plotly.express as px
 
 @st.cache_resource
 def carrega_modelo():
-    #https://drive.google.com/file/d/14USuEnscVJ-10SdOkGNuNndzaCv4KclZ/view?usp=drive_link
     url = 'https://drive.google.com/uc?id=14USuEnscVJ-10SdOkGNuNndzaCv4KclZ'
     gdown.download(url,'modelo_quantizado16bits.tflite')
     interpreter = tf.lite.Interpreter(model_path='modelo_quantizado16bits.tflite')
@@ -18,18 +17,18 @@ def carrega_modelo():
     return interpreter
 
 def carrega_imagem():
-    uploaded_file = st.file_uploader('Arraste e solte uma imagem aqui ou clique para selecionar uma imagem', type=['png', 'jpg', 'jpeg'])
+    uploaded_file = st.file_uploader('Arraste e solte uma imagem aqui ou clique para selecionar uma', type=['png', 'jpg', 'jpeg'])
 
     if uploaded_file is not None:
         image_data = uploaded_file.read()
         image = Image.open(io.BytesIO(image_data))
 
         st.image(image)
-        st.success('Imagem carregada com sucesso')
+        st.success('Imagem foi carregada com sucesso')
 
-        image = np.array(image,dtype=np.float32)
+        image = np.array(image, dtype=np.float32)
         image = image / 255.0
-        image = np.expand_dims(image,axis=0)
+        image = np.expand_dims(image, axis=0)
 
         return image
     
